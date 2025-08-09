@@ -11,13 +11,9 @@ The file `events/types.go` contains definitions for a number of events that desc
 - `AccountBadgeEarned` - An account has earned a coloured badge. An account can earn more than one badge of the same colour.
 - `AccountBadgeRevoked` - A coloured badge has been revoked for a given user account.
 
-Calling the `GetEvents()` function from the events package will retrieve a time-sequenced slice of account events.
+We have an EventBus that exposes a Consume method. You can call this method with your handler to iterate over the events in the stream. 
 
-```go
-evts := events.GetEvents()
-```
-
-You can assume that these events are ordered by the time they were raised. So the last event in the slice is the most recently emmited event.
+You can assume that these events are ordered by the time they were raised. So the last event received is the most recently emmited event.
 
 AccountIDs (UUID) are immutable and cannot be updated with the `AccountInformationUpdated` event.
 
@@ -32,3 +28,4 @@ An account 'status' can be calculated for a given account according to the numbe
 
 1. Create an in-memory projection for accounts, including account ID, name, email, number of badges earned, and the 'status' of the account. There is no need to use an external data storage for this challenge. Consider writing some tests to prove the correctness of your projection.
 2. Write a simple API to retrieve account information (id, name, email, badge count and account type) as JSON by account ID.
+
