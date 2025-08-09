@@ -5,7 +5,8 @@ import (
 )
 
 func main() {
-	evts := events.GetEvents()
+  bus := events.NewEventBus()
+
 
 	// Create your in-memory projection here.
 	// (No need to use an external data store.)

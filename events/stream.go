@@ -5,15 +5,13 @@ package events
 // That would be cheating. :)
 // ===========================================
 
-// GetEvents that describe the time-series state of accounts in our system.
-func GetEvents() []interface{} {
-	const (
-		user1 = "730f2a64-ad93-4f84-b90f-349591066be7"
-		user2 = "04957cb1-7a75-44af-95e2-1214b90a9088"
-		user3 = "3f0920c6-6354-4343-8148-1e9aa89ec711"
-	)
+const (
+  user1 = "730f2a64-ad93-4f84-b90f-349591066be7"
+  user2 = "04957cb1-7a75-44af-95e2-1214b90a9088"
+  user3 = "3f0920c6-6354-4343-8148-1e9aa89ec711"
+)
 
-	return []interface{}{
+var events = []any{
 		AccountCreated{
 			AccountID: user1,
 		},
@@ -191,5 +189,22 @@ func GetEvents() []interface{} {
 			AccountName:  "Ryan Gold",
 			AccountEmail: "r.gold98@yahoo.co.uk",
 		},
-	}
+}
+
+type EventBusHandler func(event any)
+
+type EventBus struct {
+  events []any
+}
+
+func(eb * EventBus) Consume(handler EventBusHandler) {
+  for _, event := range eb.events {
+    handler(event)
+  }
+}
+
+func NewEventBus() *EventBus {
+  return &EventBus{
+    events: events,
+  }
 }
